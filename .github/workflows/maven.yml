@@ -29,5 +29,10 @@ jobs:
         cache: maven
     - name: Build with Maven
       run: mvn clean install
-
+    
+    - run: mkdir release && cp target/*.jar release
+    - uses: actions/upload-artifact@v3
+      with:
+        name: Package
+        path: release
 
