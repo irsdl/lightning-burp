@@ -71,11 +71,16 @@ public class AuraJSONTab implements IMessageEditorTab {
 
     @Override
     public boolean isEnabled(byte[] content, boolean isRequest) {
+        if (content == null || content.length == 0)
+            return false;
         // No support for responses yet (invalid JSON)
         return (isRequest && isRequestEnabled(content));// || isResponseEnabled(content);			
     }
 
     private boolean isRequestEnabled(byte[] content) {
+        if (content == null || content.length == 0)
+            return false;
+
         boolean isAuraMessage = (null != helpers.getRequestParameter(content, AURA_INDICATOR));
 
         if (this.httpService != null) {
@@ -105,6 +110,8 @@ public class AuraJSONTab implements IMessageEditorTab {
 
     @Override
     public void setMessage(byte[] content, boolean isRequest) {
+        if (content == null || content.length == 0)
+            return;
         this.content = content;
         this.jsonText.setText("".getBytes(StandardCharsets.UTF_8));
         IParameter param = helpers.getRequestParameter(content, auraDataparam);

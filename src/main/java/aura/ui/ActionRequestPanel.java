@@ -6,10 +6,7 @@
  */
 package aura.ui;
 
-import java.awt.BorderLayout;
-import java.awt.FlowLayout;
-import java.awt.Label;
-import java.awt.TextField;
+import java.awt.*;
 import java.io.IOException;
 
 import javax.swing.JPanel;
@@ -108,7 +105,9 @@ public class ActionRequestPanel extends ActionPanel {
     }
 
     private JPanel getHeaderPanel(ActionRequest ar) {
-        JPanel headerPanel = new JPanel(new FlowLayout());
+        JPanel headerPanel = new JPanel(new GridBagLayout());
+        GridBagConstraints gbc = new GridBagConstraints();
+
         Label controllerLabel = new Label("Controller");
         this.controllerField = new TextField(ar.calledController);
         this.controllerField.setEditable(editable);
@@ -117,10 +116,30 @@ public class ActionRequestPanel extends ActionPanel {
         this.methodField = new TextField(ar.calledMethod, 20);
         this.methodField.setEditable(editable);
 
-        headerPanel.add(controllerLabel);
-        headerPanel.add(controllerField);
-        headerPanel.add(methodLabel);
-        headerPanel.add(this.methodField);
+        // Adding Controller label to grid
+        gbc.gridx = 0; // Column 0
+        gbc.gridy = 0; // Row 0
+        gbc.anchor = GridBagConstraints.EAST;
+        headerPanel.add(controllerLabel, gbc);
+
+        // Adding Controller field to grid
+        gbc.gridx = 1; // Column 1
+        gbc.gridy = 0; // Row 0
+        gbc.anchor = GridBagConstraints.WEST;
+        headerPanel.add(controllerField, gbc);
+
+        // Adding Method label to grid
+        gbc.gridx = 2; // Column 2
+        gbc.gridy = 0; // Row 0
+        gbc.anchor = GridBagConstraints.EAST;
+        headerPanel.add(methodLabel, gbc);
+
+        // Adding Method field to grid
+        gbc.gridx = 3; // Column 3
+        gbc.gridy = 0; // Row 0
+        gbc.anchor = GridBagConstraints.WEST;
+        headerPanel.add(this.methodField, gbc);
+
         return headerPanel;
     }
 }

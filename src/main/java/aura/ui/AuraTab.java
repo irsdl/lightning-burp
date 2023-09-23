@@ -65,6 +65,8 @@ public class AuraTab implements IMessageEditorTab {
 
     @Override
     public boolean isEnabled(byte[] content, boolean isRequest) {
+        if (content == null || content.length == 0)
+            return false;
         return (isRequest && isRequestEnabled(content)) || isResponseEnabled(content);
     }
 
@@ -76,6 +78,9 @@ public class AuraTab implements IMessageEditorTab {
      * @return true if the content is a valid Aura request.
      */
     private boolean isRequestEnabled(byte[] content) {
+        if (content == null || content.length == 0)
+            return false;
+
         boolean isAuraMessage = (null != helpers.getRequestParameter(content, AURA_INDICATOR));
 
         if (this.httpService != null) {
@@ -97,6 +102,9 @@ public class AuraTab implements IMessageEditorTab {
     }
 
     private boolean isResponseEnabled(byte[] content) {
+        if (content == null || content.length == 0)
+            return false;
+
         IResponseInfo response = helpers.analyzeResponse(content);
         String mimeType = response.getStatedMimeType();
         if (!mimeType.equals("JSON")) {
@@ -109,6 +117,9 @@ public class AuraTab implements IMessageEditorTab {
 
     @Override
     public void setMessage(byte[] content, boolean isRequest) {
+        if (content == null || content.length == 0)
+            return;
+
         if (isRequest) {
             requestSetup(content);
         } else {
@@ -117,6 +128,9 @@ public class AuraTab implements IMessageEditorTab {
     }
 
     public void requestSetup(byte[] content) {
+        if (content == null || content.length == 0)
+            return;
+
         this.cleanTab();
         this.content = content;
         IParameter param = helpers.getRequestParameter(content, AURA_DATAPARAM);
@@ -147,6 +161,9 @@ public class AuraTab implements IMessageEditorTab {
     }
 
     public void responseSetup(byte[] content) {
+        if (content == null || content.length == 0)
+            return;
+
         this.cleanTab();
 
         String body = getResponseBody(content);
